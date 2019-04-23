@@ -1,8 +1,8 @@
 # art-fund
-vue + uniapp
-1. install HBuilder X
+## vue + uniapp
+### 1. install HBuilder X
    https://www.dcloud.io/hbuilderx.html
-2. install wechat devtools
+### 2. install wechat devtools
    https://developers.weixin.qq.com/miniprogram/dev/devtools/download.html
 3 open the project to HBuilder
   file -> import -> local filesystem
