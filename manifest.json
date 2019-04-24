@@ -1,13 +1,19 @@
 {
-    "name" : "art-fund",
+    "name" : "art-mall",
     "appid" : "",
     "description" : "",
     "versionName" : "1.0.0",
     "versionCode" : "100",
     "transformPx" : false,
     "app-plus" : {
-		"usingComponents": true,
         /* 5+App特有相关 */
+		"usingComponents":true,
+        "splashscreen" : {
+            "alwaysShowBeforeRender" : true,
+            "waiting" : true,
+            "autoclose" : true,
+            "delay" : 0
+        },
         "modules" : {},
         /* 模块配置 */
         "distribute" : {
@@ -49,10 +55,10 @@
     /* 快应用特有相关 */
     "mp-weixin" : {
         /* 小程序特有相关 */
+		"usingComponents":true,
         "appid" : "",
         "setting" : {
             "urlCheck" : true
-        },
-        "usingComponents": true
+        }
     }
 }
