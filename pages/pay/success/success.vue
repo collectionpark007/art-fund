@@ -4,7 +4,7 @@
 			<image src="/static/img/success.png"></image>
 		</view>
 		<view class="tis">
-			订单支付成功
+			订单支付成功111
 		</view>
 		<view class="pay-amount">
 			支付金额:{{amount}}元
