@@ -1,79 +1,84 @@
 <template>
 	<view class="container">
-		<view class="carousel">
-			<swiper indicator-dots circular=true duration="400">
-				<swiper-item class="swiper-item" v-for="(item,index) in imgList" :key="index">
-					<view class="image-wrapper">
-						<image
-							:src="item.src" 
-							class="loaded" 
-							mode="aspectFill"
-						></image>
+		<!-- banner -->
+		<view class="banner">
+			<image
+				:src="banner" 
+				
+			></image>
+			<view class="cf-bg"></view>
+			<view class="cf-container">
+				<view class="cf-detail">
+					<view class="cf-content">	
+						<text class="cf-des-title">
+							快到不可思议的5G毫米波路由
+						</text>
+						
+						<text class="cf-des-txt">
+							无缝连接5G时代、随时随地极速传输、11AD标准高达4600兆无线速率
+						</text>
 					</view>
-				</swiper-item>
-			</swiper>
-		</view>
-		
-		<view class="introduce-section">
-			<text class="title">恒源祥2019春季长袖白色t恤 新款春装</text>
-			<view class="price-box">
-				<text class="price-tip">¥</text>
-				<text class="price">341.6</text>
-				<text class="m-price">¥488</text>
-				<text class="coupon-tip">7折</text>
-			</view>
-			<view class="bot-row">
-				<text>销量: 108</text>
-				<text>库存: 4690</text>
-				<text>浏览量: 768</text>
-			</view>
-		</view>
-		
-		<!--  分享 -->
-		<view class="share-section" @click="share">
-			<view class="share-icon">
-				<text class="yticon icon-xingxing"></text>
-				 返
-			</view>
-			<text class="tit">该商品分享可领49减10红包</text>
-			<text class="yticon icon-bangzhu1"></text>
-			<view class="share-btn">
-				立即分享
-				<text class="yticon icon-you"></text>
+					<view class="cf-number-container">
+						<view class="item">
+							<view class="number">
+								<text>234</text>
+							</view>
+							<view class="txt">
+								<text>支持人次</text>
+							</view>
+						</view>
+						<view class="item">
+							<view class="number">
+								<text class="symbol">¥</text>
+								<text data-val="260186.0000" data-type="money">260,186</text>
+							</view>
+							<view class="txt">
+								<image class="icon iconfont icon-yichoujine"></image>
+								<text>已筹金额</text>
+							</view>
+						</view>
+						<view class="item">
+							<view class="number">
+								<text data-val="260" data-type="perc">260</text>%
+							</view>
+							<view class="txt">
+								<image class="icon iconfont icon-jindu1"></image>
+								<text>达成率</text>
+							</view>
+						</view>
+					</view>
+				</view>
 			</view>
 			
+		</view>
+		<view class="cf-progress">
+			<uni-steps :data="[
+				{title: '创意'}, 
+				{title: '评审'}, 
+				{title: '众筹中'}, 
+				{title: '发货'}]" 
+				:active="2">
+			</uni-steps>
 		</view>
 		
 		<view class="c-list">
 			<view class="c-row b-b" @click="toggleSpec">
-				<text class="tit">购买类型</text>
+				<text class="tit">档位回报</text>
 				<view class="con">
 					<text class="selected-text" v-for="(sItem, sIndex) in specSelected" :key="sIndex">
 						{{sItem.name}}
 					</text>
 				</view>
-				<text class="yticon icon-you"></text>
+				去支持<text class="yticon icon-you"></text>
 			</view>
-			<view class="c-row b-b">
-				<text class="tit">优惠券</text>
-				<text class="con t-r red">领取优惠券</text>
-				<text class="yticon icon-you"></text>
+		</view>
+		<!-- story -->
+		<view class="detail-desc">
+			<view class="d-header">
+				<text>众筹故事</text>
 			</view>
-			<view class="c-row b-b">
-				<text class="tit">促销活动</text>
-				<view class="con-list">
-					<text>新人首单送20元无门槛代金券</text>
-					<text>订单满50减10</text>
-					<text>订单满100减30</text>
-					<text>单笔购买满两件免邮费</text>
-				</view>
-			</view>
-			<view class="c-row b-b">
-				<text class="tit">服务</text>
-				<view class="bz-list con">
-					<text>7天无理由退换货 ·</text>
-					<text>假一赔十 ·</text>
-				</view>
+			<view class="story">
+				<image v-for="(stItem, stIndex) in storyImgList" :src="stItem.src" mode="widthFix" :key="stIndex"></image>
 			</view>
 		</view>
 		
@@ -96,13 +101,6 @@
 					</view>
 				</view>
 			</view>
-		</view>
-		
-		<view class="detail-desc">
-			<view class="d-header">
-				<text>图文详情</text>
-			</view>
-			<rich-text :nodes="desc"></rich-text>
 		</view>
 		
 		<!-- 底部操作菜单 -->
@@ -164,7 +162,7 @@
 						</text>
 					</view>
 				</view>
-				<button class="btn" @click="toggleSpec">完成</button>
+				<button class="btn" @click="confirmOrder">完成</button>
 			</view>
 		</view>
 		<!-- 分享 -->
@@ -178,18 +176,25 @@
 
 <script>
 	import share from '@/components/share';
+	import uniSteps from "@/components/uni-steps/uni-steps.vue"
+
 	export default{
 		components: {
-			share
+			share,
+			uniSteps
 		},
 		data() {
 			return {
+				banner: 'http://img30.360buyimg.com/cf/jfs/t1/18661/17/13907/142385/5ca33f27E9297c88a/dde91c6b10427bf2.jpg',
 				specClass: 'none',
 				specSelected:[],
 				
 				favorite: true,
 				shareList: [],
 				imgList: [
+					{
+						src: 'http://img30.360buyimg.com/cf/jfs/t1/18661/17/13907/142385/5ca33f27E9297c88a/dde91c6b10427bf2.jpg'
+					},
 					{
 						src: 'https://gd3.alicdn.com/imgextra/i3/0/O1CN01IiyFQI1UGShoFKt1O_!!0-item_pic.jpg_400x400.jpg'
 					},
@@ -200,15 +205,18 @@
 						src: 'https://gd2.alicdn.com/imgextra/i2/38832490/O1CN01IYq7gu1UGShvbEFnd_!!38832490.jpg_400x400.jpg'
 					}
 				],
-				desc: `
-					<div style="width:100%">
-						<img style="width:100%;display:block;" src="https://gd3.alicdn.com/imgextra/i4/479184430/O1CN01nCpuLc1iaz4bcSN17_!!479184430.jpg_400x400.jpg" />
-						<img style="width:100%;display:block;" src="https://gd2.alicdn.com/imgextra/i2/479184430/O1CN01gwbN931iaz4TzqzmG_!!479184430.jpg_400x400.jpg" />
-						<img style="width:100%;display:block;" src="https://gd3.alicdn.com/imgextra/i3/479184430/O1CN018wVjQh1iaz4aupv1A_!!479184430.jpg_400x400.jpg" />
-						<img style="width:100%;display:block;" src="https://gd4.alicdn.com/imgextra/i4/479184430/O1CN01tWg4Us1iaz4auqelt_!!479184430.jpg_400x400.jpg" />
-						<img style="width:100%;display:block;" src="https://gd1.alicdn.com/imgextra/i1/479184430/O1CN01Tnm1rU1iaz4aVKcwP_!!479184430.jpg_400x400.jpg" />
-					</div>
-				`,
+				storyImgList: [
+					{
+						src: 'https://img30.360buyimg.com/cf/jfs/t1/27591/27/12625/417914/5c9af94fEa67a752d/007048fab20c14bb.jpg!q70.jpg.dpg'
+					},
+					{
+						src: 'https://img30.360buyimg.com/cf/jfs/t1/31870/15/7990/437160/5c9af95bEd7da4100/979e09a7c4c7d779.jpg!q70.jpg.dpg'
+					},
+					{
+						src: 'https://img30.360buyimg.com/cf/jfs/t1/31243/23/6890/504758/5c923c1fEadaf6cf6/c815342bc6740710.jpg!q70.jpg.dpg'
+					},
+					
+				],
 				specList: [
 					{
 						id: 1,
@@ -331,7 +339,12 @@
 			toFavorite(){
 				this.favorite = !this.favorite;
 			},
-			stopPrevent(){}
+			stopPrevent(){},
+			confirmOrder(){
+				uni.navigateTo({
+					url:'/pages/order/confirmation'
+				})
+			}
 		},
 
 	}
@@ -342,9 +355,88 @@
 		background: $page-color-base;
 		padding-bottom: 160upx;
 	}
+	.banner{
+		width: 100%;
+		height: 100%;
+		position: relative;
+		image{
+			width: 100%;
+			height: 1334upx;
+		}
+		.cf-container{
+			position: absolute;
+			z-index: 2;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			height: 494upx;
+			.cf-detail{
+				width: 620upx;
+				background: rgba(255,255,255,.1);
+				margin: 0 auto;
+				color: #fff;
+				padding-top: 42upx;
+				padding-bottom: 42upx;
+				padding-left: 42upx;
+				padding-right: 42upx;
+			}
+			.cf-des-title{
+				font-size: 40upx;
+				display: block;
+			}
+			.cf-des-txt{
+				font-size: 28upx;
+			}
+			
+		}
+		.cf-bg{
+			position: absolute;
+			left: 0;
+			right: 0;
+			height: 716upx;
+			bottom: 0;
+			background: url(//static.360buyimg.com/zhongchou/zc_fe_cz_m/build/v2/images/detail/kv-bg.png) repeat-x 0 bottom;
+			background-size: 100% 100%;
+			z-index: 1;
+		}
+		.cf-number-container{
+			display: flex;
+			padding-top: 40upx;
+			.item{
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				justify-content: center;
+				flex: 1;
+				.icon{
+					width: 32upx;
+					height: 32upx;
+				}
+				.txt{
+					color: #818181;
+					font-size: 22upx;
+				}
+			}
+		}
+		.cf-progress{
+			position: absolute;
+			left: 0;
+			right: 0;
+			z-index: 2;
+			bottom: 0;
+			background-color: #fff;
+			width: 620upx;
+			margin: 0 auto;
+		}
+	}
 	.icon-you{
 		font-size: $font-base + 2upx;
 		color: #888;
+	}
+	.story{
+		image{
+			width: 100%;
+		}
 	}
 	.carousel {
 		height: 722upx;

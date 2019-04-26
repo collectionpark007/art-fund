@@ -1,11 +1,10 @@
 {
 	"pages": [ 
-		
 		{
 			"path" : "pages/index/index",
 			"style" : {
 				// #ifdef MP 
-				"navigationBarTitleText" : "Dloud商城",
+				"navigationBarTitleText" : "Collection Park",
 				//"navigationStyle": "custom",
 				// #endif 
 				"app-plus": {
@@ -39,6 +38,39 @@
 					}
 				}
 			}
+		},
+		{
+		    "path" : "pages/order/confirmation",
+		    "style" : {
+		        "navigationBarTitleText" : "订单确认",
+		        "app-plus" : {
+// 		            "titleNView" : {
+// 		                "type" : "transparent"
+// 		            }
+		        }
+		    }
+		},
+		{
+		    "path" : "pages/pay/payment/payment",
+		    "style" : {
+		        "navigationBarTitleText" : "订单支付",
+		        "app-plus" : {
+// 		            "titleNView" : {
+// 		                "type" : "transparent"
+// 		            }
+		        }
+		    }
+		},
+		{
+		    "path" : "pages/pay/success/success",
+		    "style" : {
+		        "navigationBarTitleText" : "订单支付",
+		        "app-plus" : {
+// 		            "titleNView" : {
+// 		                "type" : "transparent"
+// 		            }
+		        }
+		    }
 		},
 		{
 		    "path" : "pages/product/product",
@@ -128,7 +160,18 @@
             		"bounce": "none"
             	}
             }
-        }
+        },{
+		    "path" : "pages/user/address/address",
+		    "style" : {
+		        "navigationBarTitleText" : "地址管理"
+		    }
+		},{
+		    "path" : "pages/user/address/edit/edit",
+		    "style" : {
+		        "navigationBarTitleText" : "地址管理"
+		    }
+		}
+		
     ],
 	 "globalStyle" : {
 	    "navigationBarTextStyle" : "black",
