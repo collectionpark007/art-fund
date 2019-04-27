@@ -241,75 +241,84 @@
 </template>
 
 <script>
+import api from '../../common/api.js'
+import qxios from '../../common/qxios.js'
+export default {
 
-	export default {
+	data() {
+		return {
+			titleNViewBackground: '',
+			swiperCurrent: 0,
+			swiperLength: 0,
+			carouselList: [],
+			goodsList: []
+		};
+	},
 
-		data() {
-			return {
-				titleNViewBackground: '',
-				swiperCurrent: 0,
-				swiperLength: 0,
-				carouselList: [],
-				goodsList: []
-			};
+	onLoad() {
+		this.loadData();
+		this.login();
+	},
+	methods: {
+		/**
+		 * 请求静态数据只是为了代码不那么乱
+		 * 分次请求未作整合
+		 */
+		async loadData() {
+			let carouselList = await this.$api.json('carouselList');
+			this.titleNViewBackground = carouselList[0].background;
+			this.swiperLength = carouselList.length;
+			this.carouselList = carouselList;
+			
+			let goodsList = await this.$api.json('goodsList');
+			this.goodsList = goodsList || [];
 		},
-
-		onLoad() {
-			this.loadData();
+		//轮播图切换修改背景色
+		swiperChange(e) {
+			const index = e.detail.current;
+			this.swiperCurrent = index;
+			this.titleNViewBackground = this.carouselList[index].background;
 		},
-		methods: {
-			/**
-			 * 请求静态数据只是为了代码不那么乱
-			 * 分次请求未作整合
-			 */
-			async loadData() {
-				let carouselList = await this.$api.json('carouselList');
-				this.titleNViewBackground = carouselList[0].background;
-				this.swiperLength = carouselList.length;
-				this.carouselList = carouselList;
-				
-				let goodsList = await this.$api.json('goodsList');
-				this.goodsList = goodsList || [];
-			},
-			//轮播图切换修改背景色
-			swiperChange(e) {
-				const index = e.detail.current;
-				this.swiperCurrent = index;
-				this.titleNViewBackground = this.carouselList[index].background;
-			},
-			//详情页
-			navToDetailPage(item) {
-				//测试数据没有写id，用title代替
-				let id = item.title;
-				uni.navigateTo({
-					url: `/pages/product/product?id=${id}`
+		//详情页
+		navToDetailPage(item) {
+			//测试数据没有写id，用title代替
+			let id = item.title;
+			uni.navigateTo({
+				url: `/pages/product/product?id=${id}`
+			})
+		},
+		login(){
+			const url = api.auth.login
+			qxios.post(url)
+				.then(res => {
+					console.log('qxios res234:', res)
 				})
-			},
-		},
-		// #ifndef MP
-		// 标题栏input搜索框点击
-		onNavigationBarSearchInputClicked: async function(e) {
-			this.$api.msg('点击了搜索框');
-		},
-		//点击导航栏 buttons 时触发
-		onNavigationBarButtonTap(e) {
-			const index = e.index;
-			if (index === 0) {
-				this.$api.msg('点击了扫描');
-			} else if (index === 1) {
-				// #ifdef APP-PLUS
-				const pages = getCurrentPages();
-				const page = pages[pages.length - 1];
-				const currentWebview = page.$getAppWebview();
-				currentWebview.hideTitleNViewButtonRedDot({
-					index
-				});
-				// #endif
-				this.$api.msg('点击了消息, 红点新消息提示已清除');
-			}
 		}
-		// #endif
+	},
+	// #ifndef MP
+	// 标题栏input搜索框点击
+	onNavigationBarSearchInputClicked: async function(e) {
+		this.$api.msg('点击了搜索框');
+	},
+	//点击导航栏 buttons 时触发
+	onNavigationBarButtonTap(e) {
+		const index = e.index;
+		if (index === 0) {
+			this.$api.msg('点击了扫描');
+		} else if (index === 1) {
+			// #ifdef APP-PLUS
+			const pages = getCurrentPages();
+			const page = pages[pages.length - 1];
+			const currentWebview = page.$getAppWebview();
+			currentWebview.hideTitleNViewButtonRedDot({
+				index
+			});
+			// #endif
+			this.$api.msg('点击了消息, 红点新消息提示已清除');
+		}
 	}
+	// #endif
+}
 </script>
 
 <style lang="scss">
